@@ -4,6 +4,8 @@
 
 Thought Traveller Listener is a cross-platform desktop service that receives AI conversation exports from the Thought Traveller iOS app and saves them as markdown files to configured local project folders.
 
+**Companion App:** [Thought Traveller iOS](https://github.com/RyanG2016/thought_traveller_ios)
+
 ## Tech Stack
 
 - **Runtime:** Node.js 20+
