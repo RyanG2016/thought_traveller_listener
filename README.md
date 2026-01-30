@@ -4,6 +4,8 @@ A companion desktop service that bridges your Claude Code sessions with the Thou
 
 > **Note:** Thought Traveller is an independent project and is not affiliated with or endorsed by Anthropic.
 
+**Companion App:** [Thought Traveller iOS](https://github.com/RyanG2016/thought_traveller_ios)
+
 ## Table of Contents
 
 - [Quick Start](#quick-start)
