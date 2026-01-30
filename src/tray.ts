@@ -1,12 +1,37 @@
 #!/usr/bin/env node
 
 import SysTray from 'systray2';
+import path from 'path';
+import fs from 'fs';
 import { loadConfig, configExists } from './config';
 import { startServer, stopServer, ServerInfo } from './server';
 import { initLogger, getLogger } from './logger';
 import { startBonjourAdvertising, stopBonjourAdvertising } from './bonjour';
 import { buildMenu, openConfigFile, openLogFile, MenuId, getLocalIP } from './tray-menu';
 import { Config } from './types';
+
+// Handle pkg bundled executable - ensure tray binary is accessible
+function setupPkgTrayBinary(): void {
+  // Check if running in pkg
+  const isPkg = (process as any).pkg !== undefined;
+  if (!isPkg) return;
+
+  // Get the directory where the exe is located
+  const exeDir = path.dirname(process.execPath);
+  const trayBinDir = path.join(exeDir, 'traybin');
+  const trayBinPath = path.join(trayBinDir, 'tray_windows_release.exe');
+
+  // Check if tray binary exists next to exe
+  if (!fs.existsSync(trayBinPath)) {
+    console.error(`Error: tray_windows_release.exe not found at ${trayBinDir}`);
+    console.error('The traybin folder must be in the same directory as the exe.');
+    console.error('Re-run the build script or manually copy node_modules/systray2/traybin/ to the exe directory.');
+    process.exit(1);
+  }
+
+  // Change to exe directory so systray2 can find the binary with copyDir
+  process.chdir(exeDir);
+}
 
 let systray: SysTray | null = null;
 let serverInfo: ServerInfo | null = null;
@@ -52,7 +77,7 @@ async function stopListener(): Promise<void> {
 }
 
 function quit(): void {
-  getLogger().info('Exiting Claude Traveller');
+  getLogger().info('Exiting Thought Traveller');
 
   if (serverInfo) {
     stopBonjourAdvertising();
@@ -137,8 +162,11 @@ function handleMenuClick(seqId: number): void {
 }
 
 async function main(): Promise<void> {
+  // Setup tray binary for pkg-bundled exe (must be before SysTray init)
+  setupPkgTrayBinary();
+
   if (!configExists()) {
-    console.error('Configuration not found. Run "claude-traveller init" first.');
+    console.error('Configuration not found. Run "thought-traveller init" first.');
     process.exit(1);
   }
 

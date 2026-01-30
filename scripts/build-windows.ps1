@@ -25,12 +25,28 @@ function Build-Executable {
 
         # Package with pkg
         Write-Host "Packaging executable with pkg..."
-        npx pkg dist/tray.js --targets node18-win-x64 --output "$DistDir\ThoughtTravellerListener" --compress GZip
+        npx pkg dist/tray.js --config package.json --targets node18-win-x64 --output "$DistDir\ThoughtTravellerListener" --compress GZip
 
         if (Test-Path $ExePath) {
+            # Copy systray2 tray binary (required - pkg cannot bundle native binaries)
+            Write-Host "Copying systray2 tray binary..."
+            $TrayBinSrc = Join-Path $ProjectRoot "node_modules\systray2\traybin"
+            $TrayBinDst = Join-Path $DistDir "traybin"
+
+            if (Test-Path $TrayBinSrc) {
+                if (-not (Test-Path $TrayBinDst)) {
+                    New-Item -ItemType Directory -Path $TrayBinDst | Out-Null
+                }
+                Copy-Item "$TrayBinSrc\tray_windows_release.exe" $TrayBinDst -Force
+                Write-Host "Copied tray binary to: $TrayBinDst"
+            } else {
+                Write-Host "Warning: systray2 traybin not found at $TrayBinSrc" -ForegroundColor Yellow
+            }
+
             Write-Host ""
             Write-Host "Build complete!" -ForegroundColor Green
             Write-Host "Executable: $ExePath"
+            Write-Host "Note: The traybin folder must stay with the exe"
             Write-Host ""
             Write-Host "To install for auto-start, run:"
             Write-Host "  .\scripts\build-windows.ps1 -Install" -ForegroundColor Yellow
@@ -61,6 +77,17 @@ function Install-Startup {
 
     Copy-Item $ExePath $InstalledExe -Force
     Write-Host "Copied to: $InstalledExe"
+
+    # Copy traybin folder (required for systray2)
+    $TrayBinSrc = Join-Path $DistDir "traybin"
+    $TrayBinDst = Join-Path $InstallDir "traybin"
+    if (Test-Path $TrayBinSrc) {
+        if (-not (Test-Path $TrayBinDst)) {
+            New-Item -ItemType Directory -Path $TrayBinDst | Out-Null
+        }
+        Copy-Item "$TrayBinSrc\*" $TrayBinDst -Force -Recurse
+        Write-Host "Copied traybin to: $TrayBinDst"
+    }
 
     # Create startup shortcut
     $StartupFolder = [System.IO.Path]::Combine($env:APPDATA, "Microsoft\Windows\Start Menu\Programs\Startup")
