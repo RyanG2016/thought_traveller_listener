@@ -1,0 +1,58 @@
+{
+  "name": "thought-traveller",
+  "version": "1.0.0",
+  "description": "Thought Traveller for Claude Code - Desktop listener for the iOS companion app",
+  "main": "dist/index.js",
+  "bin": {
+    "thought-traveller": "./dist/cli.js",
+    "tt": "./dist/cli.js",
+    "thought-traveller-tray": "./dist/tray.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/cli.js start",
+    "start:tray": "node dist/tray.js",
+    "dev": "ts-node src/cli.ts",
+    "dev:tray": "ts-node src/tray.ts",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "pkg:macos": "pkg dist/tray.js --targets node18-macos-x64,node18-macos-arm64 --output dist/ThoughtTraveller-macos --compress GZip",
+    "pkg:windows": "pkg dist/tray.js --targets node18-win-x64 --output dist/ThoughtTraveller-win.exe --compress GZip",
+    "pkg:all": "npm run pkg:macos && npm run pkg:windows",
+    "build:macos-app": "./scripts/build-macos-app.sh",
+    "build:windows-app": "powershell -ExecutionPolicy Bypass -File ./scripts/build-windows.ps1"
+  },
+  "pkg": {
+    "assets": [
+      "assets/**/*",
+      "node_modules/systray2/**/*"
+    ],
+    "outputPath": "dist"
+  },
+  "keywords": [
+    "claude",
+    "ai",
+    "conversation",
+    "sync",
+    "mobile"
+  ],
+  "author": "VTEX Voice Solutions",
+  "license": "MIT",
+  "dependencies": {
+    "@parse/node-apn": "^7.0.1",
+    "bonjour-service": "^1.3.0",
+    "chalk": "^4.1.2",
+    "commander": "^14.0.2",
+    "express": "^5.2.1",
+    "systray2": "^2.1.4",
+    "winston": "^3.19.0",
+    "ws": "^8.19.0"
+  },
+  "devDependencies": {
+    "@types/express": "^5.0.6",
+    "@types/node": "^25.0.10",
+    "@types/ws": "^8.18.1",
+    "pkg": "^5.8.1",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
+  }
+}

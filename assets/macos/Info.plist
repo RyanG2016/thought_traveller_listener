@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>CFBundleName</key>
+    <string>Thought Traveller</string>
+
+    <key>CFBundleDisplayName</key>
+    <string>Thought Traveller Listener</string>
+
+    <key>CFBundleIdentifier</key>
+    <string>com.thoughttraveller.listener</string>
+
+    <key>CFBundleVersion</key>
+    <string>1.0.0</string>
+
+    <key>CFBundleShortVersionString</key>
+    <string>1.0.0</string>
+
+    <key>CFBundlePackageType</key>
+    <string>APPL</string>
+
+    <key>CFBundleExecutable</key>
+    <string>thought-traveller-launcher</string>
+
+    <key>CFBundleIconFile</key>
+    <string>AppIcon</string>
+
+    <!-- LSUIElement makes this a background/agent app (no dock icon) -->
+    <key>LSUIElement</key>
+    <true/>
+
+    <!-- Minimum macOS version -->
+    <key>LSMinimumSystemVersion</key>
+    <string>10.15</string>
+
+    <key>NSHighResolutionCapable</key>
+    <true/>
+
+    <key>NSSupportsAutomaticTermination</key>
+    <false/>
+
+    <key>NSSupportsSuddenTermination</key>
+    <false/>
+
+    <key>CFBundleInfoDictionaryVersion</key>
+    <string>6.0</string>
+
+    <key>NSHumanReadableCopyright</key>
+    <string>Copyright © 2024-2026 VTEX Voice Solutions. All rights reserved.</string>
+</dict>
+</plist>
