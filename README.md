@@ -402,6 +402,15 @@ Important:
 
 ## Building Applications
 
+### Prerequisites
+
+Before building executables, install dependencies and compile TypeScript:
+
+```bash
+npm install
+npm run build
+```
+
 ### macOS Application Bundle
 
 ```bash
@@ -429,6 +438,11 @@ Creates `dist/ThoughtTravellerListener.app`
 
 ```bash
 npm run pkg:windows
+```
+
+Or use npx directly:
+```powershell
+npx pkg dist/tray.js --targets node18-win-x64 --output dist/ThoughtTraveller-win.exe --compress GZip
 ```
 
 Creates `dist/ThoughtTraveller-win.exe`
