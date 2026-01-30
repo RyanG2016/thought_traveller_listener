@@ -444,18 +444,27 @@ Creates `dist/ThoughtTravellerListener.app`
 - macOS may show a security warning for unsigned apps
 - Right-click the app → **Open** → **Open** to bypass Gatekeeper
 
-### Windows Executable
+### Windows Distribution
 
-```bash
-npm run pkg:windows
-```
-
-Or use npx directly:
 ```powershell
-npx pkg dist/tray.js --targets node18-win-x64 --output dist/ThoughtTraveller-win.exe --compress GZip
+.\scripts\build-windows.ps1
 ```
 
-Creates `dist/ThoughtTraveller-win.exe`
+Creates `dist\ThoughtTravellerListener-win\` containing:
+```
+ThoughtTravellerListener-win/
+├── ThoughtTravellerListener.bat   # Run with console (for debugging)
+├── ThoughtTravellerListener.vbs   # Run hidden (no console window)
+├── tray.js, cli.js, etc.
+├── node_modules/
+└── package.json
+```
+
+**Requirements:** Node.js must be installed on the target machine.
+
+**Running:**
+- **With console (debugging):** Double-click `ThoughtTravellerListener.bat`
+- **Hidden (normal use):** Double-click `ThoughtTravellerListener.vbs`
 
 **Installation with Auto-Start:**
 ```powershell
@@ -463,13 +472,15 @@ Creates `dist/ThoughtTraveller-win.exe`
 ```
 
 This:
-- Copies the executable to `%LOCALAPPDATA%\ThoughtTravellerListener`
-- Creates a Startup folder shortcut
+- Copies the distribution to `%LOCALAPPDATA%\ThoughtTravellerListener`
+- Creates a Startup folder shortcut (runs hidden on login)
 
 **Uninstall:**
 ```powershell
 .\scripts\build-windows.ps1 -Uninstall
 ```
+
+**Note:** Windows Firewall will prompt for network access on first run. Click "Allow" to enable the listener.
 
 ### Build All Platforms
 
