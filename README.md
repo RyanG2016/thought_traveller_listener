@@ -404,12 +404,22 @@ Important:
 
 ### Prerequisites
 
+All build commands must be run from the project root directory (`thought-traveller-listener/`).
+
 Before building executables, install dependencies and compile TypeScript:
 
 ```bash
+# 1. Navigate to the project directory
+cd path/to/thought-traveller-listener
+
+# 2. Install dependencies
 npm install
+
+# 3. Compile TypeScript to JavaScript (creates dist/ folder)
 npm run build
 ```
+
+**Important:** The `npm run build` step is required before packaging. It compiles the TypeScript source files into JavaScript in the `dist/` folder. Without this step, the packaging commands will fail with "input file doesn't exist".
 
 ### macOS Application Bundle
 
